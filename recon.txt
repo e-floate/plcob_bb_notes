@@ -1,0 +1,43 @@
+most interesting endpoints:
+
+https://www.pclob.gov/Document/Download?query= -- fuzz download parameter
+
+https://www.pclob.gov/Search/search.asp?zoom_query=$$$&zoom_page=1&zoom_per_page=10&zoom_and=0&zoom_sort=0 -- fuzz all parameters, query most interesting, try
+sql injection/ XSS
+
+https://www.pclob.gov/bundles	bootstrap/jquery/modernizr (website probably uses these technologies)
+
+
+https://www.pclob.gov/Scripts/	site.js/animations.js/framweork.js	?v= parameter (version?)
+
+always return 200 UNLESS -- site.js?v=20191218093037 OR framework.js?v=20210111112634 OR animations.js?v=20191218093037 THEN return 304
+
+https://www.pclob.gov/EventsPress/Index?page= -- fuzz parameter for SQL injection / XSS
+
+https://documents.pclob.gov/ -- info exposure? JQUERY and JS config files
+
+GET /Download?=beta/e-magazine/ee3664bc-3709-43a7-a116-cf660c9c05da/mobile/javascript/jquery-1.9.1.min.js HTTP/2 --
+met with 302 redirect to https://www.pclob.gov:9003/Error/NotFound
+--------------------------------------------------------------------------------------------------------
+DNS INFO ()
+
+dns.gsa.gov	13.248.142.184	ab1b5819d71342626.awsglobalaccelerator.com	AMAZON-02	United States
+dns5.gsa.gov	76.223.9.162	ab1b5819d71342626.awsglobalaccelerator.com	AMAZON-02	United States
+dns2.gsa.gov.	159.142.150.68 host.159-142-150-68.gsa.gov	GSA-GOV	United States
+dns4.gsa.gov.	13.248.149.147	a7377a60fa9bc0787.awsglobalaccelerator.com	AMAZON-02	United States
+dns3.gsa.gov.	13.248.144.182	a6591f05dc319c631.awsglobalaccelerator.com	AMAZON-02	United States
+---------------------------------------------------------------------------------------------------------
+other info:
+
+uses ASP.net/bootstrap/jquery/modernizr
+
+-------------------------------------------------------------------------------------------------------------
+GET /Search/search.asp?zoom_query=l%2A&zoom_page=3&zoom_per_page=10000000&zoom_and=0&zoom_sort=0 HTTP/2
+Host: www.pclob.gov
+Accept-Encoding: gzip, deflate
+Accept: */*
+Accept-Language: en
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36
+
+Returns 404 but add 1 more 0 to zoom_per_page and it returns 500 internal server error according to burp BUT in browser always shows response 500
+
